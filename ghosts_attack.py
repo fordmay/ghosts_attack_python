@@ -1,6 +1,7 @@
 import pygame
 import sys
 from settings import Settings
+from wizard import Wizard
 
 
 class GhostsAttack:
@@ -17,6 +18,8 @@ class GhostsAttack:
         # Variable for control time.
         self.clock = pygame.time.Clock()
 
+        self.wizard = Wizard(self)
+
     def run_game(self):
         """Start the main loop for the game."""
 
@@ -31,6 +34,8 @@ class GhostsAttack:
 
             # Redraw the screen during each pass through the loop.
             self.screen.fill(self.settings.bg_color)
+
+            self.wizard.blitme()
 
             # Make the most recently drawn screen visible.
             pygame.display.flip()
