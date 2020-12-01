@@ -28,7 +28,7 @@ class GhostsAttack:
         while True:
             self._check_events()
             self.wizard.update()
-            self.balls.update()
+            self._update_balls()
             self._update_screen()
 
     def _check_events(self):
@@ -61,8 +61,19 @@ class GhostsAttack:
 
     def _fire_ball(self):
         """Create a new ball and add it to the balls group."""
-        new_ball = Ball(self)
-        self.balls.add(new_ball)
+        if len(self.balls) < self.settings.balls_allowed:
+            new_ball = Ball(self)
+            self.balls.add(new_ball)
+
+    def _update_balls(self):
+        """Update position of balls and get rid of old balls."""
+        # Update balls positions
+        self.balls.update()
+
+        # Get rid of balls that have disappeared.
+        for ball in self.balls.copy():
+            if ball.rect.bottom <= 0:
+                self.balls.remove(ball)
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
