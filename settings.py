@@ -14,6 +14,6 @@ class Settings:
 
         # Ball settings
         self.ball_speed = 5.0
-        self.ball_width = 8
-        self.ball_height = 8
+        self.ball_width = 10
+        self.ball_height = 10
         self.ball_color = (255, 128, 0)
