@@ -8,8 +8,8 @@ class Wizard:
         """Initialize the wizard and set its starting position."""
 
         self.screen = ga_game.screen
-        self.screen_rect = ga_game.screen.get_rect()
         self.settings = ga_game.settings
+        self.screen_rect = ga_game.screen.get_rect()
 
         # Load the ship image and get its rect.
         self.image = pygame.image.load('images/wizard.bmp')

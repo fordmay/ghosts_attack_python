@@ -10,4 +10,10 @@ class Settings:
         self.FPS = 60
 
         # Wizard settings
-        self.wizard_speed = 10.5
+        self.wizard_speed = 8.0
+
+        # Ball settings
+        self.ball_speed = 5.0
+        self.ball_width = 8
+        self.ball_height = 8
+        self.ball_color = (255, 128, 0)
