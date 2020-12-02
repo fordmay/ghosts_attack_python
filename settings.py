@@ -17,4 +17,4 @@ class Settings:
         self.ball_width = 10
         self.ball_height = 10
         self.ball_color = (255, 128, 0)
-        self.balls_allowed = 3
+        self.balls_allowed = 5

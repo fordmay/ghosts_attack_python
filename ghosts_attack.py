@@ -3,6 +3,7 @@ import sys
 from settings import Settings
 from wizard import Wizard
 from ball import Ball
+from ghost import Ghost
 
 
 class GhostsAttack:
@@ -22,6 +23,8 @@ class GhostsAttack:
 
         self.wizard = Wizard(self)
         self.balls = pygame.sprite.Group()
+        self.ghosts = pygame.sprite.Group()
+        self._create_crowd()
 
     def run_game(self):
         """Start the main loop for the game."""
@@ -83,11 +86,19 @@ class GhostsAttack:
         self.screen.fill(self.settings.bg_color)
         # Add the wizard to the game
         self.wizard.blitme()
-        # Add the balls to the game
+        # Add balls to the game
         for ball in self.balls.sprites():
             ball.draw_ball()
+        # Add ghosts to the game
+        self.ghosts.draw(self.screen)
         # Make the most recently drawn screen visible.
         pygame.display.flip()
+
+    def _create_crowd(self):
+        """Create the crowd of ghosts."""
+        # Make an ghost.
+        ghost = Ghost(self)
+        self.ghosts.add(ghost)
 
 
 if __name__ == '__main__':
