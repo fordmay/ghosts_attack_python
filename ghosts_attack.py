@@ -96,8 +96,23 @@ class GhostsAttack:
 
     def _create_crowd(self):
         """Create the crowd of ghosts."""
-        # Make an ghost.
+        # Create a ghost and find the number of ghosts in a row.
+        # Spacing between each ghost is equal to one ghost width.
         ghost = Ghost(self)
+        ghost_width = ghost.rect.width
+        available_space_x = self.settings.screen_width - (2 * ghost_width)
+        number_ghosts_x = available_space_x // (2 * ghost_width)
+
+        # Create the first row of aliens
+        for ghost_number in range(number_ghosts_x):
+            self._create_ghost(ghost_number)
+
+    def _create_ghost(self, ghost_number):
+        # Create a ghost and place it in the row.
+        ghost = Ghost(self)
+        ghost_width = ghost.rect.width
+        ghost.x = ghost_width + 2 * ghost_width * ghost_number
+        ghost.rect.x = ghost.x
         self.ghosts.add(ghost)
 
 
