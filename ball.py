@@ -11,8 +11,12 @@ class Ball(Sprite):
         super().__init__()
         self.screen = ga_game.screen
         self.settings = ga_game.settings
-        # Take random color to ball
-        self.color = (randint(0, 255), randint(0, 255), randint(0, 255))
+
+        # Use random color or not to ball
+        if self.settings.random_ball_color:
+            self.color = (randint(0, 255), randint(0, 255), randint(0, 255))
+        else:
+            self.color = self.settings.ball_color
 
         # Create a ball rect at (0, 0) and then set correct position
         self.rect = pygame.Rect(0, 0, self.settings.ball_width,
