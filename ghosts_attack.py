@@ -32,6 +32,7 @@ class GhostsAttack:
             self._check_events()
             self.wizard.update()
             self._update_balls()
+            self._update_ghosts()
             self._update_screen()
 
     def _check_events(self):
@@ -121,6 +122,24 @@ class GhostsAttack:
         ghost.rect.x = ghost.x
         ghost.rect.y = ghost.rect.height + 2 * ghost.rect.height * row_number
         self.ghosts.add(ghost)
+
+    def _update_ghosts(self):
+        """Update the positions of all ghosts in the crowd."""
+        self._check_fleet_edges()
+        self.ghosts.update()
+
+    def _check_fleet_edges(self):
+        """Respond appropriately if any ghosts have reached an edge."""
+        for ghost in self.ghosts.sprites():
+            if ghost.check_edges():
+                self._change_crowd_direction()
+                break
+
+    def _change_crowd_direction(self):
+        """Drop the entire crowd and change the crowd's direction."""
+        for ghost in self.ghosts.sprites():
+            ghost.rect.y += self.settings.crowd_drop_speed
+        self.settings.crowd_direction *= -1
 
 
 if __name__ == '__main__':
