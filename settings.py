@@ -1,3 +1,5 @@
+
+
 class Settings:
     """A class to store all settings for Alien Invasion."""
 
@@ -16,5 +18,4 @@ class Settings:
         self.ball_speed = 5.0
         self.ball_width = 10
         self.ball_height = 10
-        self.ball_color = (255, 128, 0)
         self.balls_allowed = 5
