@@ -148,6 +148,8 @@ class GhostsAttack:
         # Look for ghost-wizard collisions.
         if pygame.sprite.spritecollideany(self.wizard, self.ghosts):
             self._wizard_hit()
+        # Look for ghosts hitting the bottom of the screen.
+        self._check_ghosts_bottom()
 
     def _check_fleet_edges(self):
         """Respond appropriately if any ghosts have reached an edge."""
@@ -164,16 +166,28 @@ class GhostsAttack:
 
     def _wizard_hit(self):
         """Respond to the wizard being hit by an ghost."""
-        # Decrement wizard_left.
-        self.stats.wizards_left = -1
-        # Get rid of any remaining ghosts and balls.
-        self.ghosts.empty()
-        self.balls.empty()
-        # Create a new crowd and center the wizard.
-        self._create_crowd()
-        self.wizard.center_wizard()
-        # Pause
-        sleep(0.5)
+        if self.stats.wizards_left > 0:
+            # Decrement wizard_left.
+            self.stats.wizards_left = -1
+            # Get rid of any remaining ghosts and balls.
+            self.ghosts.empty()
+            self.balls.empty()
+            # Create a new crowd and center the wizard.
+            self._create_crowd()
+            self.wizard.center_wizard()
+            # Pause
+            sleep(0.5)
+        else:
+            self.stats.game_active = False
+
+    def _check_ghosts_bottom(self):
+        """Check if any ghosts have reached the bottom of the screen."""
+        screen_rect = self.screen.get_rect()
+        for ghost in self.ghosts.sprites():
+            if ghost.rect.bottom >= screen_rect.bottom:
+                # Treat this the same as if the wizard got hit.
+                self._wizard_hit()
+                break
 
 
 if __name__ == '__main__':
