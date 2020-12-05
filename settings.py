@@ -10,18 +10,19 @@ class Settings:
         self.FPS = 60
 
         # Wizard settings
-        self.wizard_speed = 4.0
+        self.wizard_speed = 8.0
+        self.wizard_limit = 3
 
         # Ball settings
-        self.ball_speed = 2.0
+        self.ball_speed = 6.0
         self.ball_width = 10
         self.ball_height = 10
-        self.balls_allowed = 5
+        self.balls_allowed = 3
         self.random_ball_color = True
         self.ball_color = (128, 0, 128)
 
         # ghost settings
-        self.ghost_speed = 2.0
+        self.ghost_speed = 4.0
         self.crowd_drop_speed = 10
         # crowd_direction of 1 represents right; -1 represents left.
         self.crowd_direction = 1

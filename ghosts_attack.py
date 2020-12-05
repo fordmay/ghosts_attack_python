@@ -1,9 +1,11 @@
-import pygame
 import sys
+from time import sleep
+import pygame
 from settings import Settings
 from wizard import Wizard
 from ball import Ball
 from ghost import Ghost
+from game_stats import GameStats
 
 
 class GhostsAttack:
@@ -20,6 +22,9 @@ class GhostsAttack:
 
         # Variable for control time.
         self.clock = pygame.time.Clock()
+
+        # Create an instance to store game statistics
+        self.stats = GameStats(self)
 
         self.wizard = Wizard(self)
         self.balls = pygame.sprite.Group()
@@ -79,6 +84,18 @@ class GhostsAttack:
             if ball.rect.bottom <= 0:
                 self.balls.remove(ball)
 
+        self._check_ball_ghost_collisions()
+
+    def _check_ball_ghost_collisions(self):
+        """Respond to ball-ghost collisions."""
+        # Remove any ballets and ghosts that have collided.
+        pygame.sprite.groupcollide(self.balls, self.ghosts, True, True)
+
+        if not self.ghosts:
+            # Destroy existing balls and create new crowd.
+            self.balls.empty()
+            self._create_crowd()
+
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
         # Reduce redraw the screen to FPS. Save PC resource
@@ -128,6 +145,10 @@ class GhostsAttack:
         self._check_fleet_edges()
         self.ghosts.update()
 
+        # Look for ghost-wizard collisions.
+        if pygame.sprite.spritecollideany(self.wizard, self.ghosts):
+            self._wizard_hit()
+
     def _check_fleet_edges(self):
         """Respond appropriately if any ghosts have reached an edge."""
         for ghost in self.ghosts.sprites():
@@ -140,6 +161,19 @@ class GhostsAttack:
         for ghost in self.ghosts.sprites():
             ghost.rect.y += self.settings.crowd_drop_speed
         self.settings.crowd_direction *= -1
+
+    def _wizard_hit(self):
+        """Respond to the wizard being hit by an ghost."""
+        # Decrement wizard_left.
+        self.stats.wizards_left = -1
+        # Get rid of any remaining ghosts and balls.
+        self.ghosts.empty()
+        self.balls.empty()
+        # Create a new crowd and center the wizard.
+        self._create_crowd()
+        self.wizard.center_wizard()
+        # Pause
+        sleep(0.5)
 
 
 if __name__ == '__main__':

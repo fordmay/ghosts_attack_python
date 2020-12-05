@@ -15,11 +15,7 @@ class Wizard:
         self.image = pygame.image.load('images/wizard.bmp')
         self.rect = self.image.get_rect()
 
-        # Start each new wizard at the bottom center of the screen.
-        self.rect.midbottom = self.screen_rect.midbottom
-
-        # Store a decimal value for the ship's horizontal position.
-        self.x = float(self.rect.x)
+        self.center_wizard()
 
         # Movement flag
         self.moving_right = False
@@ -39,3 +35,10 @@ class Wizard:
     def blitme(self):
         """Draw the wizard at its current location."""
         self.screen.blit(self.image, self.rect)
+
+    def center_wizard(self):
+        """Center the wizard on the screen."""
+        # Start each new wizard at the bottom center of the screen.
+        self.rect.midbottom = self.screen_rect.midbottom
+        # Store a decimal value for the wizard's horizontal position.
+        self.x = float(self.rect.x)
