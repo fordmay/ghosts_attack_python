@@ -34,11 +34,15 @@ class GhostsAttack:
     def run_game(self):
         """Start the main loop for the game."""
         while True:
+            # Reduce redraw the screen to FPS. Save PC resource
+            self.clock.tick(self.settings.FPS)
+
             self._check_events()
-            self.wizard.update()
-            self._update_balls()
-            self._update_ghosts()
-            self._update_screen()
+            if self.stats.game_active:
+                self.wizard.update()
+                self._update_balls()
+                self._update_ghosts()
+                self._update_screen()
 
     def _check_events(self):
         """Respond to key presses and mouse events."""
@@ -98,8 +102,6 @@ class GhostsAttack:
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
-        # Reduce redraw the screen to FPS. Save PC resource
-        self.clock.tick(self.settings.FPS)
         # Redraw the screen during each pass through the loop.
         self.screen.fill(self.settings.bg_color)
         # Add the wizard to the game
@@ -168,7 +170,7 @@ class GhostsAttack:
         """Respond to the wizard being hit by an ghost."""
         if self.stats.wizards_left > 0:
             # Decrement wizard_left.
-            self.stats.wizards_left = -1
+            self.stats.wizards_left -= 1
             # Get rid of any remaining ghosts and balls.
             self.ghosts.empty()
             self.balls.empty()

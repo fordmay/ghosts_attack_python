@@ -11,7 +11,7 @@ class Settings:
 
         # Wizard settings
         self.wizard_speed = 8.0
-        self.wizard_limit = 3
+        self.wizard_limit = 2
 
         # Ball settings
         self.ball_speed = 6.0
