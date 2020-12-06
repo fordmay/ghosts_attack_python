@@ -6,6 +6,7 @@ from wizard import Wizard
 from ball import Ball
 from ghost import Ghost
 from game_stats import GameStats
+from button import Button
 
 
 class GhostsAttack:
@@ -31,6 +32,9 @@ class GhostsAttack:
         self.ghosts = pygame.sprite.Group()
         self._create_crowd()
 
+        # Make the Play button.
+        self.play_button = Button(self, "Play")
+
     def run_game(self):
         """Start the main loop for the game."""
         while True:
@@ -42,7 +46,8 @@ class GhostsAttack:
                 self.wizard.update()
                 self._update_balls()
                 self._update_ghosts()
-                self._update_screen()
+
+            self._update_screen()
 
     def _check_events(self):
         """Respond to key presses and mouse events."""
@@ -53,6 +58,9 @@ class GhostsAttack:
                 self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_events(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
 
     def _check_keydown_events(self, event):
         """Respond to key presses."""
@@ -77,6 +85,22 @@ class GhostsAttack:
         if len(self.balls) < self.settings.balls_allowed:
             new_ball = Ball(self)
             self.balls.add(new_ball)
+
+    def _check_play_button(self, mouse_pos):
+        """Start a new game when the player clicks Play."""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.stats.game_active:
+            # Reset the game statistics.
+            self.stats.reset_stats()
+            self.stats.game_active = True
+            # Get rid of any remaining ghosts and balls.
+            self.ghosts.empty()
+            self.balls.empty()
+            # Create a new crowd and center the wizard.
+            self._create_crowd()
+            self.wizard.center_wizard()
+            # Hide the mouse cursor.
+            pygame.mouse.set_visible(False)
 
     def _update_balls(self):
         """Update position of balls and get rid of old balls."""
@@ -111,6 +135,9 @@ class GhostsAttack:
             ball.draw_ball()
         # Add ghosts to the game
         self.ghosts.draw(self.screen)
+        # Draw the play button if the game is inactive.
+        if not self.stats.game_active:
+            self.play_button.draw_button()
         # Make the most recently drawn screen visible.
         pygame.display.flip()
 
@@ -181,6 +208,7 @@ class GhostsAttack:
             sleep(0.5)
         else:
             self.stats.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _check_ghosts_bottom(self):
         """Check if any ghosts have reached the bottom of the screen."""
