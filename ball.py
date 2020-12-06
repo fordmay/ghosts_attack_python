@@ -12,7 +12,7 @@ class Ball(Sprite):
         self.screen = ga_game.screen
         self.settings = ga_game.settings
 
-        # Use random color or not to ball
+        # Takes random color or not for the ball.
         if self.settings.random_ball_color:
             self.color = (randint(0, 255), randint(0, 255), randint(0, 255))
         else:
