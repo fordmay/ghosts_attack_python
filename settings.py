@@ -38,6 +38,9 @@ class Settings:
         # crowd_direction of 1 represents right; -1 represents left.
         self.crowd_direction = 1
 
+        # Scoring
+        self.ghost_points = 50
+
     def increase_speed(self):
         self.wizard_speed += self.speedup_scale
         self.ball_speed += self.speedup_scale

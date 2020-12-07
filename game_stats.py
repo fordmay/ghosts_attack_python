@@ -12,3 +12,4 @@ class GameStats:
     def reset_stats(self):
         """Initialize statistics that can change during the game."""
         self.wizards_left = self.settings.wizard_limit
+        self.score = 0

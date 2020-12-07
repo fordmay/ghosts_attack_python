@@ -6,6 +6,7 @@ from wizard import Wizard
 from ball import Ball
 from ghost import Ghost
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 
 
@@ -30,8 +31,10 @@ class GhostsAttack:
         # Variable for control time.
         self.clock = pygame.time.Clock()
 
-        # Create an instance to store game statistics
+        # Create an instance to store game statistics,
+        # and create a scoreboard.
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.wizard = Wizard(self)
         self.balls = pygame.sprite.Group()
@@ -125,7 +128,10 @@ class GhostsAttack:
     def _check_ball_ghost_collisions(self):
         """Respond to ball-ghost collisions."""
         # Remove any ballets and ghosts that have collided.
-        pygame.sprite.groupcollide(self.balls, self.ghosts, True, True)
+        collisions = pygame.sprite.groupcollide(self.balls, self.ghosts, True, True)
+        if collisions:
+            self.stats.score += self.settings.ghost_points
+            self.sb.prep_score()
 
         if not self.ghosts:
             # Destroy existing balls and create new crowd.
@@ -144,6 +150,8 @@ class GhostsAttack:
             ball.draw_ball()
         # Add ghosts to the game
         self.ghosts.draw(self.screen)
+        # Draw the score information.
+        self.sb.show_score()
         # Draw the play button if the game is inactive.
         if not self.stats.game_active:
             self.play_button.draw_button()
