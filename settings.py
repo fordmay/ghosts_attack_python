@@ -11,7 +11,7 @@ class Settings:
         self.FPS = 60
 
         # Wizard settings
-        self.wizard_limit = 2
+        self.wizard_limit = 3
 
         # Ball settings
         self.ball_width = 10

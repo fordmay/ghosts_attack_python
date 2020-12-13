@@ -107,6 +107,7 @@ class GhostsAttack:
             self.stats.reset_stats()
             self.stats.game_active = True
             self.sb.prep_score()
+            self.sb.prep_hearts()
             # Get rid of any remaining ghosts and balls.
             self.ghosts.empty()
             self.balls.empty()
@@ -218,8 +219,9 @@ class GhostsAttack:
     def _wizard_hit(self):
         """Respond to the wizard being hit by an ghost."""
         if self.stats.wizards_left > 0:
-            # Decrement wizard_left.
+            # Decrement wizards_left, and update scoreboard.
             self.stats.wizards_left -= 1
+            self.sb.prep_hearts()
             # Get rid of any remaining ghosts and balls.
             self.ghosts.empty()
             self.balls.empty()

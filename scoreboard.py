@@ -1,4 +1,6 @@
 import pygame.font
+from heart import Heart
+from pygame.sprite import Group
 
 
 class Scoreboard:
@@ -17,6 +19,7 @@ class Scoreboard:
         # Prepare the initial score images.
         self.prep_score()
         self.prep_high_score()
+        self.prep_hearts()
 
     def prep_score(self):
         """Turn the score into a rendered image."""
@@ -27,7 +30,7 @@ class Scoreboard:
         # Display the score at the top right of the screen.
         self.score_rect = self.score_image.get_rect()
         self.score_rect.right = self.screen_rect.right - 20
-        self.score_rect.top = 20
+        self.score_rect.top = 10
 
     def prep_high_score(self):
         """Turn the high score into a rendered image."""
@@ -40,10 +43,20 @@ class Scoreboard:
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.score_rect.top
 
+    def prep_hearts(self):
+        """Show how many wizard's hearts are left."""
+        self.hearts = Group()
+        for wizard_number in range(self.stats.wizards_left):
+            heart = Heart()
+            heart.rect.x = 10 + wizard_number * heart.rect.width
+            heart.rect.y = 10
+            self.hearts.add(heart)
+
     def show_score(self):
-        """Draw score to the screen."""
+        """Draw scores, and hearts to the screen."""
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
+        self.hearts.draw(self.screen)
 
     def check_high_score(self):
         """Check to see if there's a new high score."""
