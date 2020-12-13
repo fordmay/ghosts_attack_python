@@ -62,6 +62,7 @@ class GhostsAttack:
         """Respond to key presses and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.stats.write_high_score()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 self._check_keydown_events(event)
@@ -78,6 +79,7 @@ class GhostsAttack:
         elif event.key == pygame.K_LEFT:
             self.wizard.moving_left = True
         elif event.key == pygame.K_q:
+            self.stats.write_high_score()
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_ball()
