@@ -5,7 +5,8 @@ class GameStats:
         """Initialize statistics."""
         self.settings = ga_game.settings
         self.reset_stats()
-
+        # High score should never be reset.
+        self.high_score = 0
         # Start Ghosts Attack in an active state
         self.game_active = False
 

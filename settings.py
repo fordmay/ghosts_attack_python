@@ -25,6 +25,8 @@ class Settings:
 
         # How quickly the game speeds up
         self.speedup_scale = 2.0
+        # How quickly the ghost point values increase
+        self.score_scale = 2
 
         self.initialize_dynamic_settings()
         self.increase_speed()
@@ -39,9 +41,12 @@ class Settings:
         self.crowd_direction = 1
 
         # Scoring
-        self.ghost_points = 50
+        self.ghost_points = 10
 
     def increase_speed(self):
+        """Increase speed settings and ghost point values."""
         self.wizard_speed += self.speedup_scale
         self.ball_speed += self.speedup_scale
         self.ghost_speed += self.speedup_scale
+
+        self.ghost_points = self.ghost_points * self.score_scale

@@ -104,6 +104,7 @@ class GhostsAttack:
             # Reset the game statistics.
             self.stats.reset_stats()
             self.stats.game_active = True
+            self.sb.prep_score()
             # Get rid of any remaining ghosts and balls.
             self.ghosts.empty()
             self.balls.empty()
@@ -130,8 +131,10 @@ class GhostsAttack:
         # Remove any ballets and ghosts that have collided.
         collisions = pygame.sprite.groupcollide(self.balls, self.ghosts, True, True)
         if collisions:
-            self.stats.score += self.settings.ghost_points
+            for ghosts in collisions.values():
+                self.stats.score += self.settings.ghost_points * len(ghosts)
             self.sb.prep_score()
+            self.sb.check_high_score()
 
         if not self.ghosts:
             # Destroy existing balls and create new crowd.
